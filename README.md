@@ -4,7 +4,7 @@ A reusable SMTP mail-merge tool: point it at a contacts CSV (School, Name, Posit
 
 ## One-time setup
 
-No external dependencies to install — sending uses only Python's standard library (`smtplib`).
+No external dependencies to install. Sending uses only Python's standard library (`smtplib`).
 
 ### 1. Generate a Gmail App Password
 Google requires an "App Password" for SMTP login instead of your normal account password.
@@ -17,7 +17,7 @@ Copy `.env.example` to `.env` and fill in your details:
 SMTP_USERNAME=camcarbuc@gmail.com
 SMTP_APP_PASSWORD=your16charapppassword
 ```
-`.env` is gitignored — it will never be committed. Remove the spaces Google shows you when generating the app password.
+`.env` is gitignored. It will never be committed. Remove the spaces Google shows you when generating the app password.
 
 ### Using a different SMTP provider
 `smtp_host` / `smtp_port` in `config.json` default to Gmail (`smtp.gmail.com` / `587`). To send through a different provider (e.g. a school or work SMTP server), just change those two values and put the matching credentials in `.env`.
@@ -28,17 +28,17 @@ Edit `templates/default_template.txt` with your real subject/body copy before se
 
 Edit `config.json` to set your display name and the delay between sends.
 
-**1. Dry run** — renders every eligible email to `logs/dry_run_preview.txt`, sends nothing:
+**1. Dry run** renders every eligible email to `logs/dry_run_preview.txt`, sends nothing:
 ```
 python send_emails.py --dry-run
 ```
 
-**2. Send a test to yourself** — sends one rendered email only to your own configured SMTP address:
+**2. Send a test to yourself** sends one rendered email only to your own configured SMTP address:
 ```
 python send_emails.py --send-test-to-self
 ```
 
-**3. Staged rollout** — send to just the first few real contacts before running the full list:
+**3. Staged rollout** send to just the first few real contacts before running the full list:
 ```
 python send_emails.py --limit 3
 ```
@@ -56,8 +56,8 @@ python send_emails.py --csv path/to/OtherSchool_Contacts.csv --template template
 ## How status tracking works
 - After every single send (success or failure), the `Status` column for that row is written back into the source CSV immediately — so if the script is interrupted, nothing already sent is lost or resent.
 - Rows with `Status` starting with `Sent` are skipped on the next run.
-- Rows with a blank or `Not publicly listed` email are always skipped and reported in the run summary — they need manual follow-up.
+- Rows with a blank or `Not publicly listed` email are always skipped and reported in the run summary. They need manual follow-up.
 - Every run also writes a full audit log to `logs/send_log_<timestamp>.csv`.
 
 ## Required CSV columns
-`School, Name, Position, Email, Status` — additional columns are ignored, but these five must be present with those exact header names.
+`School, Name, Position, Email, Status` Additional columns are ignored, but these five must be present with those exact header names.
