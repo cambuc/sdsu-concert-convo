@@ -1,0 +1,8 @@
+{
+  "sender_name": "Peyton Carter-Buchanan",
+  "delay_seconds": 4,
+  "default_csv": "University_of_Delaware_Contacts.csv",
+  "default_template": "templates/default_template.txt",
+  "smtp_host": "smtp.gmail.com",
+  "smtp_port": 587
+}
