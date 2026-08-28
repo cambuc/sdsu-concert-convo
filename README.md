@@ -1,10 +1,10 @@
 # Concert and Convo Emailer
 
-A reusable SMTP mail-merge tool: point it at a contacts CSV (School, Name, Position, Email, Status) and a template, and it personalizes + sends an email to each eligible contact over SMTP, tracking status back into the CSV so reruns never double-send.
+A reusable SMTP mail-merge tool. This tool was created to aid the rollout of a mental health program for universities. To use, just point it at a contacts CSV (School, Name, Position, Email, Status) and a template, and it personalizes + sends an email to each eligible contact over SMTP, tracking status back into the CSV so reruns never double-send.
 
 ## One-time setup
 
-No external dependencies to install. Sending uses only Python's standard library (`smtplib`).
+No external dependencies to install. Sending uses only Python's standard library (`smtplib`)
 
 ### 1. Generate a Gmail App Password
 Google requires an "App Password" for SMTP login instead of your normal account password.
@@ -54,10 +54,10 @@ python send_emails.py --csv path/to/OtherSchool_Contacts.csv --template template
 ```
 
 ## How status tracking works
-- After every single send (success or failure), the `Status` column for that row is written back into the source CSV immediately — so if the script is interrupted, nothing already sent is lost or resent.
-- Rows with `Status` starting with `Sent` are skipped on the next run.
-- Rows with a blank or `Not publicly listed` email are always skipped and reported in the run summary. They need manual follow-up.
-- Every run also writes a full audit log to `logs/send_log_<timestamp>.csv`.
+- After every single send (success or failure), the `Status` column for that row is written back into the source CSV immediately, so if the script is interrupted, nothing already sent is lost or resent
+- Rows with `Status` starting with `Sent` are skipped on the next run
+- Rows with a blank or `Not publicly listed` email are always skipped and reported in the run summary. They need manual follow-up
+- Every run also writes a full audit log to `logs/send_log_<timestamp>.csv`
 
 ## Required CSV columns
-`School, Name, Position, Email, Status` Additional columns are ignored, but these five must be present with those exact header names.
+`School, Name, Position, Email, Status` Additional columns are ignored, but these five must be present with those exact header names
