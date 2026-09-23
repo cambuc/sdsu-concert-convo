@@ -35,7 +35,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def run_dry_run(rows, template, limit):
+def run_dry_run(rows, template, config, limit):
     LOGS_DIR.mkdir(exist_ok=True)
     preview_path = LOGS_DIR / "dry_run_preview.txt"
     targeted = rows[:limit] if limit else rows
@@ -44,6 +44,8 @@ def run_dry_run(rows, template, limit):
         for row in targeted:
             subject, body = template.render(row)
             f.write(f"To: {row['Name']} <{row['Email']}>\n")
+            if config["cc_email"]:
+                f.write(f"Cc: {config['cc_email']}\n")
             f.write(f"Subject: {subject}\n\n")
             f.write(body)
             f.write("\n" + ("-" * 60) + "\n\n")
@@ -101,6 +103,7 @@ def run_live_send(contacts: ContactsFile, rows, template, config, limit):
                         subject=subject,
                         body=body,
                         sender_name=config["sender_name"],
+                        cc_address=config["cc_email"],
                     )
                     contacts.mark_status(row, f"Sent {timestamp}")
                     log_writer.writerow([timestamp, row["Name"], row["Email"], "sent"])
@@ -148,7 +151,7 @@ def main():
     )
 
     if args.dry_run:
-        run_dry_run(eligible, template, args.limit)
+        run_dry_run(eligible, template, config, args.limit)
         return
 
     try:

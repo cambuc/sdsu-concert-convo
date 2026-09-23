@@ -38,18 +38,21 @@ class SMTPClient:
         self._connection.starttls()
         self._connection.login(username, password)
 
-    def send(self, to_address: str, subject: str, body: str, sender_name: str = ""):
+    def send(
+        self, to_address: str, subject: str, body: str, sender_name: str = "", cc_address: str = ""
+    ):
         message = MIMEText(body, "plain")
         message["to"] = to_address
         message["subject"] = subject
+        if cc_address:
+            message["cc"] = cc_address
         if sender_name:
             message["from"] = f"{sender_name} <{self.sender_address}>"
         else:
             message["from"] = self.sender_address
 
-        self._connection.sendmail(
-            self.sender_address, [to_address], message.as_string()
-        )
+        recipients = [to_address] + ([cc_address] if cc_address else [])
+        self._connection.sendmail(self.sender_address, recipients, message.as_string())
 
     def close(self):
         try:

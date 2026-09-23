@@ -9,6 +9,7 @@ def load_config(path: Path = DEFAULT_CONFIG_PATH) -> dict:
         config = json.load(f)
 
     config.setdefault("sender_name", "")
+    config.setdefault("cc_email", "")
     config.setdefault("delay_seconds", 4)
     config.setdefault("default_csv", "university_contacts.csv")
     config.setdefault("default_template", "templates/default_template.txt")
