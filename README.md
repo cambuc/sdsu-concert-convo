@@ -2,10 +2,6 @@
 
 A reusable SMTP mail-merge tool. This tool was created to aid the rollout of a mental health program for universities. To use, just point it at a contacts CSV (School, Name, Position, Email, Status) and a template, and it personalizes + sends an email to each eligible contact over SMTP, tracking status back into the CSV so reruns never double-send.
 
-## One-time setup
-
-No external dependencies to install. Sending uses only Python's standard library (`smtplib`)
-
 ### 1. Generate a Gmail App Password
 Google requires an "App Password" for SMTP login instead of your normal account password.
 1. Go to your [Google Account > Security](https://myaccount.google.com/security) and enable **2-Step Verification** (if it isn't already on).
