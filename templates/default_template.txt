@@ -1,4 +1,5 @@
-Subject: [Enter subject here]
+Subject: Test
 
 Dear {{Name}},
-[Enter body here]
+
+Testing

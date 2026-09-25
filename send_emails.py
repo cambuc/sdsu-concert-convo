@@ -45,7 +45,7 @@ def run_dry_run(rows, template, config, limit):
             subject, body = template.render(row)
             f.write(f"To: {row['Name']} <{row['Email']}>\n")
             if config["cc_email"]:
-                f.write(f"Cc: {config['cc_email']}\n")
+                f.write(f"Cc: {', '.join(config['cc_email'])}\n")
             f.write(f"Subject: {subject}\n\n")
             f.write(body)
             f.write("\n" + ("-" * 60) + "\n\n")
@@ -103,7 +103,7 @@ def run_live_send(contacts: ContactsFile, rows, template, config, limit):
                         subject=subject,
                         body=body,
                         sender_name=config["sender_name"],
-                        cc_address=config["cc_email"],
+                        cc_addresses=config["cc_email"],
                     )
                     contacts.mark_status(row, f"Sent {timestamp}")
                     log_writer.writerow([timestamp, row["Name"], row["Email"], "sent"])

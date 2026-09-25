@@ -39,19 +39,25 @@ class SMTPClient:
         self._connection.login(username, password)
 
     def send(
-        self, to_address: str, subject: str, body: str, sender_name: str = "", cc_address: str = ""
+        self,
+        to_address: str,
+        subject: str,
+        body: str,
+        sender_name: str = "",
+        cc_addresses: list = (),
     ):
+        cc_addresses = list(cc_addresses)
         message = MIMEText(body, "plain")
         message["to"] = to_address
         message["subject"] = subject
-        if cc_address:
-            message["cc"] = cc_address
+        if cc_addresses:
+            message["cc"] = ", ".join(cc_addresses)
         if sender_name:
             message["from"] = f"{sender_name} <{self.sender_address}>"
         else:
             message["from"] = self.sender_address
 
-        recipients = [to_address] + ([cc_address] if cc_address else [])
+        recipients = [to_address] + cc_addresses
         self._connection.sendmail(self.sender_address, recipients, message.as_string())
 
     def close(self):

@@ -22,7 +22,7 @@ SMTP_APP_PASSWORD=your16charapppassword
 
 Edit `templates/default_template.txt` with your real subject/body copy before sending anything. Merge fields available: `{{Name}}`, `{{Position}}`, `{{School}}` (must match the CSV's column headers exactly).
 
-Edit `config.json` to set your display name and the delay between sends. To CC someone on every email in the batch, set `cc_email` (e.g. `"cc_email": "colleague@example.com"`); leave it blank to send without a CC. `--send-test-to-self` never CCs anyone.
+Edit `config.json` to set your display name and the delay between sends. To CC people on every email in the batch, set `cc_email` to one address (`"colleague@example.com"`), a comma-separated string (`"a@example.com, b@example.com"`), or a list (`["a@example.com", "b@example.com"]`); leave it blank to send without a CC. `--send-test-to-self` never CCs anyone.
 
 **1. Dry run** renders every eligible email to `logs/dry_run_preview.txt`, sends nothing:
 ```
